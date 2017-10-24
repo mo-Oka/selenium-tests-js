@@ -1,2 +1,2 @@
 # selenium-tests-js
-Selenium autotests on javascript
+Selenium auto tests on javascript
