@@ -1,4 +1,4 @@
-const {Builder, By, Key, until} = require('selenium-webdriver');
+const {Builder, By, until} = require('selenium-webdriver');
 const test = require('selenium-webdriver/testing');
 
 test.describe('Admin Login', function() {
@@ -8,15 +8,22 @@ test.describe('Admin Login', function() {
         driver = yield new Builder().forBrowser('firefox').build();
     });
 
-    // You can write tests either using traditional promises.
     it('works with promises', function() {
         return driver.get('http://localhost:8080/litecart/admin/')
             .then(_ =>
                 driver.findElement(By.name('username')).sendKeys('admin'))
+            // .then(_ =>
+            //     driver.findElement(By.name('password')).sendKeys('admin', Key.RETURN)) //test implemented with enter button
+             .then(_ =>
+                 driver.findElement(By.name('password')).sendKeys('admin')) //test implemented with a click on the UI button
+             .then(_ =>
+                 driver.findElement(By.name('login')).click())
+            // .then(_ =>
+            //     driver.wait(until.elementIsVisible(notice), 1000))
             .then(_ =>
-                driver.findElement(By.name('password')).sendKeys('admin', Key.RETURN))
-            .then(_ => driver.wait(until.titleIs('My Store'), 1000));
-    });
+                driver.wait(until.elementLocated(By.xpath('//*[@id="notices"]/div[2]/i')), 1000)); // assert by notice "You are now logged in as admin"
+      });
 
     test.after(() => driver.quit());
 });
+
