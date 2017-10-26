@@ -8,8 +8,6 @@ test.describe('Admin Login', function() {
         driver = yield new Builder().forBrowser('chrome').build();
     });
 
-    try {
-
     it('works with promises', function () {
         return driver.get('http://localhost:8080/litecart/admin/')
             .then(_ =>
@@ -20,18 +18,12 @@ test.describe('Admin Login', function() {
                 driver.findElement(By.name('password')).sendKeys('admin')) //test implemented with a click on the UI button
             .then(_ =>
                 driver.findElement(By.name('login')).click())
-            // .then(_ =>
-            //     driver.wait(until.elementIsVisible(notice), 1000))
             .then(_ =>
                 driver.wait(until.elementLocated(By.xpath('//*[@id="notices"]/div[2]/i')), 1000)); // assert by notice "You are now logged in as admin"
     });
 
     test.after(() => driver.quit());
-    }
 
-    finally {
-        driver.quit();
-    }
 });
 
 

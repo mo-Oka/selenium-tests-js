@@ -36,7 +36,7 @@ test.describe('Google Search', function() {
   let driver;
 
   test.before(function *() {
-    driver = yield new Builder().forBrowser('firefox').build();
+    driver = yield new Builder().forBrowser('chrome').build();
   });
 
   // You can write tests either using traditional promises.
