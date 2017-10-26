@@ -3,6 +3,7 @@ const test = require('selenium-webdriver/testing');
 
 test.describe('Admin Login', function() {
     let driver;
+    this.timeout(5000);
 
     test.before(function *() {
         driver = yield new Builder().forBrowser('chrome').build();
