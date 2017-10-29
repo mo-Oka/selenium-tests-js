@@ -1,14 +1,19 @@
-const {Builder, By, until} = require('selenium-webdriver');
+const {Builder, By, logging, until} = require('selenium-webdriver');
 const test = require('selenium-webdriver/testing');
+
+// logging.installConsoleHandler();
+// logging.getLogger('promise.ControlFlow').setLevel(logging.Level.ALL);
 
 test.describe('Admin Login', function() {
     let driver;
-    this.timeout(5000);
+    this.timeout(10000);
 
     test.before(function *() {
-        driver = yield new Builder().forBrowser('chrome').build();
+        driver = yield new Builder().withCapabilities({'unexpectedAlertBehaviour': 'dismiss'}).forBrowser('internet explorer').build()
+            .getCapabilities().then(function(caps) {
+            console.log(caps);
+        });
     });
-
     it('works with promises', function () {
         return driver.get('http://localhost:8080/litecart/admin/')
             .then(_ =>
@@ -26,7 +31,3 @@ test.describe('Admin Login', function() {
     test.after(() => driver.quit());
 
 });
-
-
-
-

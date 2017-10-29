@@ -8,8 +8,12 @@ test.describe('Google Search', function () {
 
     test.before(function () {
         driver = new webdriver.Builder()
+            .withCapabilities({'unexpectedAlertBehaviour': 'dismiss'})
             .forBrowser('firefox')
             .build();
+        driver.getCapabilities().then(function(caps) {
+            console.log(caps);
+        });
     });
 
     test.it('should append query to title', function () {
