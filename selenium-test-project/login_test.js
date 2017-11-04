@@ -9,10 +9,7 @@ test.describe('Admin Login', function() {
     this.timeout(10000);
 
     test.before(function *() {
-        driver = yield new Builder().withCapabilities({'unexpectedAlertBehaviour': 'dismiss'}).forBrowser('internet explorer').build()
-            .getCapabilities().then(function(caps) {
-            console.log(caps);
-        });
+        driver = yield new Builder().forBrowser('chrome').build();
     });
     it('works with promises', function () {
         return driver.get('http://localhost:8080/litecart/admin/')
@@ -25,9 +22,11 @@ test.describe('Admin Login', function() {
             .then(_ =>
                 driver.findElement(By.name('login')).click())
             .then(_ =>
-                driver.wait(until.elementLocated(By.xpath('//*[@id="notices"]/div[2]/i')), 1000)); // assert by notice "You are now logged in as admin"
+                driver.wait(until.elementLocated(By.xpath("//*[contains(., 'You are now logged in as admin')]")), 1000)); // assert by notice "You are now logged in as admin"
     });
 
     test.after(() => driver.quit());
 
 });
+
+
