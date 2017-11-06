@@ -8,7 +8,7 @@ test.describe('Google Search', function () {
 
     test.before(function () {
         driver = new webdriver.Builder()
-            .withCapabilities({'unexpectedAlertBehaviour': 'dismiss'})
+            .withCapabilities({'marionette': true})
             .forBrowser('firefox')
             .build();
         driver.getCapabilities().then(function(caps) {
@@ -27,3 +27,34 @@ test.describe('Google Search', function () {
         driver.quit();
     });
 });
+
+
+/*            module.exports = {
+                'Iterate over elements and click them': function(browser) {
+
+                    function iterate(elements) {
+                        elements.value.forEach(function(el) {
+                            browser.click(el.ELEMENT, function(r) {
+                                browser.assert.ok(r.status === 0);
+                            });
+                        });
+                    }
+
+                    browser
+                        .url('..')
+                        .elements('css selector', 'div#box-apps-menu a', iterate)
+                        .end();
+                }
+            };
+
+            exports();*/
+
+/*            yield driver.findElement(By.css('#box-apps-menu')).getAttribute("innerHTML").then(function(menu) {
+                console.log(menu);
+            });*/
+
+//
+//
+// var x = document.getElementsByTagName("h1")[0].getAttribute("class");
+
+
