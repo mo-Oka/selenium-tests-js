@@ -1,7 +1,5 @@
-const {Builder, By, Key, until} = require('selenium-webdriver');
+const {Builder, By, Key} = require('selenium-webdriver');
 const test = require('selenium-webdriver/testing');
-
-
 
     test.describe('Admin Menu', function () {
         let driver;
@@ -27,19 +25,19 @@ const test = require('selenium-webdriver/testing');
                     });
                     //find child menu elements as array
                     var underLinks =  yield driver.findElements(By.css('.docs a')).then();
-                    for (var j = 0; j < underLinks.length; j++) {
+                        for (var j = 0; j < underLinks.length; j++) {
 
-                        //click on selected option in child menu
-                        yield driver.findElements(By.css('.docs a')).then(function(underLinks) {
+                            //click on selected option in child menu
+                            yield driver.findElements(By.css('.docs a')).then(function(underLinks) {
                                 underLinks[j].click().then();
 
-                        });
-                        //assert by finding h1 on the page
-                        yield driver.findElement(By.css('h1'));
+                            });
+                            //assert by finding h1 on the page
+                            yield driver.findElement(By.css('h1'));
                     }
                 }
             });
-        }
+            }
         catch (e) {
             console.log(e)
         }
