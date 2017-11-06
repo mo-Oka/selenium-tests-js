@@ -6,7 +6,6 @@ const test = require('selenium-webdriver/testing');
     test.describe('Admin Menu', function () {
         let driver;
         this.timeout(10000);
-        let selectedMenuElement;
 
         test.before(function *() {
             driver = yield new Builder().forBrowser('chrome').build();
