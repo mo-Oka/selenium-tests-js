@@ -20,8 +20,8 @@ test.describe('Product label check', function () {
             for (var i = 0; i < products.length; i++) {
                 //find amounts of stickers for each product
                 var stickerAmount = yield products[i].findElements(By.css('div.image-wrapper > div.sticker')).then();
-                if (stickerAmount.length > 1) {
-                    throw new Error('Multiply stickers!')
+                if (stickerAmount.length !== 1) {
+                    throw new Error('Unexpected amount of stickers!')
                 }
              }
         })
