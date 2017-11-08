@@ -5,7 +5,7 @@ const test = require('selenium-webdriver/testing');
 
     test.describe('Admin Menu', function () {
         let driver;
-        this.timeout(30000);
+        this.timeout(100000);
 
         test.before(function *() {
             driver = yield new Builder().forBrowser('chrome').build();
@@ -49,6 +49,52 @@ const test = require('selenium-webdriver/testing');
                     }
                 }
             });
+
+            test.it('checks if countries are sorted ASC', function* () {
+                yield driver.get('http://localhost:8080/litecart/admin/?app=countries&doc=countries');
+
+                //find amount of countries
+                var  countriesTable = yield driver.findElements(By.css('#content tr.row')).then();
+                for (var i = 0; i < countriesTable.length - 1; i++) { // 'length - 1' is a temporary solution to avoid 'out of array index' problem
+
+                    //have to refresh countriesTable array on next cycle iteration
+                    countriesTable = yield driver.findElements(By.css('#content tr.row')).then();
+
+                    //check if countries are ordered correctly
+                    var countryName = yield countriesTable[i].findElement(By.css('#content tr.row a')).getAttribute("textContent").then();
+                    var nextCountryName = yield countriesTable[i+1].findElement(By.css('#content tr.row a')).getAttribute("textContent").then();
+
+                    if(countryName > nextCountryName){
+                        throw new Error('Countries order is wrong!')
+                    }
+
+                    else {
+                        //check amount of zones and open country with != 0 zones
+                        var countryLink = yield countriesTable[i].findElement(By.css('#content tr.row a')).then();
+                        var countryZones = yield countriesTable[i].findElement(By.css('#content tr.row td:nth-child(6)')).getAttribute("textContent").then();
+
+                        if (countryZones > 0) {
+                            countryLink.click().then();
+
+                            //find list of zones
+                            var ZonesList = yield driver.findElements(By.css('#table-zones tr')).then();
+                            for (var j = 1; j < ZonesList.length - 2; j++) { // 'length - 2' is a solution to cut off the footer row in the table
+
+                                //check if zones are ordered correctly
+                                var zoneName = yield ZonesList[j].findElement(By.css('#table-zones td:nth-child(3)')).getAttribute("textContent").then();
+                                var nextZoneName = yield ZonesList[j+1].findElement(By.css('#table-zones td:nth-child(3)')).getAttribute("textContent").then();
+
+                                if (zoneName > nextZoneName) {
+                                    throw new Error('Zones order is wrong!')
+                                }
+                            }
+                            yield driver.navigate().back();
+                        }
+                    }
+                }
+            });
+
+
             }
         catch (e) {
             console.log(e)
