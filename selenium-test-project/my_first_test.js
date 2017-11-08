@@ -1,3 +1,9 @@
+module.exports = (function(settings) {
+    settings.test_workers = false;
+    return settings;
+})(require('./nightwatch.json'));
+
+
 var webdriver = require('selenium-webdriver'),
     By = webdriver.By,
     until = webdriver.until,
@@ -41,7 +47,7 @@ test.describe('Google Search', function () {
                     }
 
                     browser
-                        .url('..')
+                        .url('..') //'file:///home/user/test.html'
                         .elements('css selector', 'div#box-apps-menu a', iterate)
                         .end();
                 }
