@@ -5,7 +5,7 @@ const test = require('selenium-webdriver/testing');
 
     test.describe('Admin Menu', function () {
         let driver;
-        this.timeout(100000);
+        this.timeout(1000000);
 
         test.before(function *() {
             driver = yield new Builder().forBrowser('chrome').build();
@@ -26,7 +26,7 @@ const test = require('selenium-webdriver/testing');
             });
 
         try {
-            test.it('checks if there h1 in every menu option', function* () {
+            test.it('h1 in every menu option check', function* () {
                 //find menu elements as array
                 var links = yield driver.findElements(By.css('#box-apps-menu > li > a')).then();
                 for (var i = 0; i < links.length; i++) {
@@ -50,7 +50,7 @@ const test = require('selenium-webdriver/testing');
                 }
             });
 
-            test.it('checks if countries are sorted ASC', function* () {
+            test.it('countries are sorted ASC check', function* () {
                 yield driver.get('http://localhost:8080/litecart/admin/?app=countries&doc=countries');
 
                 //find amount of countries
@@ -77,12 +77,12 @@ const test = require('selenium-webdriver/testing');
                             countryLink.click().then();
 
                             //find list of zones
-                            var ZonesList = yield driver.findElements(By.css('#table-zones tr')).then();
-                            for (var j = 1; j < ZonesList.length - 2; j++) { // 'length - 2' is a solution to cut off the footer row in the table
+                            var zonesList = yield driver.findElements(By.css('#table-zones tr')).then();
+                            for (var j = 1; j < zonesList.length - 2; j++) { // 'length - 2' is a solution to cut off the footer row in the table
 
                                 //check if zones are ordered correctly
-                                var zoneName = yield ZonesList[j].findElement(By.css('#table-zones td:nth-child(3)')).getAttribute("textContent").then();
-                                var nextZoneName = yield ZonesList[j+1].findElement(By.css('#table-zones td:nth-child(3)')).getAttribute("textContent").then();
+                                var zoneName = yield zonesList[j].findElement(By.css('#table-zones td:nth-child(3)')).getAttribute("textContent").then();
+                                var nextZoneName = yield zonesList[j+1].findElement(By.css('#table-zones td:nth-child(3)')).getAttribute("textContent").then();
 
                                 if (zoneName > nextZoneName) {
                                     throw new Error('Zones order is wrong!')
@@ -91,6 +91,31 @@ const test = require('selenium-webdriver/testing');
                             yield driver.navigate().back();
                         }
                     }
+                }
+            });
+
+            test.it('geo zones are sorted ASC check', function* () {
+                yield driver.get('http://localhost:8080/litecart/admin/?app=geo_zones&doc=geo_zones').then();
+
+                var  countriesList = yield driver.findElements(By.css('#content td:nth-child(3)')).then();
+                for (var i = 0; i < countriesList.length; i++) {
+
+                    countriesList = yield driver.findElements(By.css('#content td:nth-child(3)')).then();
+                    var countryLink = yield countriesList[i].findElement(By.css('#content td:nth-child(3) a')).then();
+                    countryLink.click().then();
+
+                    var zonesList = yield driver.findElements(By.css('#table-zones td:nth-child(3)')).then();
+                    for (var j = 0; j < zonesList.length - 1; j++) { // 'length - 1' is a temporary solution to avoid 'out of array index' problem
+
+                        zonesList = yield driver.findElements(By.css('#table-zones td:nth-child(3)')).then();
+                        var zoneName = yield zonesList[j].findElement(By.css('#table-zones  td:nth-child(3) option[selected]')).getAttribute("textContent").then();
+                        var nextZoneName = yield zonesList[j+1].findElement(By.css('#table-zones  td:nth-child(3) option[selected]')).getAttribute("textContent").then();
+
+                        if (zoneName > nextZoneName) {
+                            throw new Error('Zones order is wrong!')
+                        }
+                    }
+                    yield driver.navigate().back();
                 }
             });
 
