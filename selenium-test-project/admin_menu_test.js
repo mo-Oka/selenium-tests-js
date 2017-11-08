@@ -97,17 +97,21 @@ const test = require('selenium-webdriver/testing');
             test.it('geo zones are sorted ASC check', function* () {
                 yield driver.get('http://localhost:8080/litecart/admin/?app=geo_zones&doc=geo_zones').then();
 
+                //find amount of countries
                 var  countriesList = yield driver.findElements(By.css('#content td:nth-child(3)')).then();
                 for (var i = 0; i < countriesList.length; i++) {
 
+                    //have to refresh countriesTable array on next cycle iteration
                     countriesList = yield driver.findElements(By.css('#content td:nth-child(3)')).then();
+                    //open country
                     var countryLink = yield countriesList[i].findElement(By.css('#content td:nth-child(3) a')).then();
                     countryLink.click().then();
 
+                    //find list of zones
                     var zonesList = yield driver.findElements(By.css('#table-zones td:nth-child(3)')).then();
                     for (var j = 0; j < zonesList.length - 1; j++) { // 'length - 1' is a temporary solution to avoid 'out of array index' problem
 
-                        zonesList = yield driver.findElements(By.css('#table-zones td:nth-child(3)')).then();
+                        //check if zones are ordered correctly
                         var zoneName = yield zonesList[j].findElement(By.css('#table-zones  td:nth-child(3) option[selected]')).getAttribute("textContent").then();
                         var nextZoneName = yield zonesList[j+1].findElement(By.css('#table-zones  td:nth-child(3) option[selected]')).getAttribute("textContent").then();
 
