@@ -96,6 +96,12 @@ test.describe('Product page tests', function () {
             if (productName !== productNameMain){
                 throw new Error('Product name on main page and on product page are different!')
             }
+            if (productPrice !== productPriceMain){
+                throw new Error('Price on main page and on product page are different!')
+            }
+            if (salePrice !== salePriceMain) {
+                throw new Error('Sale price on main page and on product page are different!')
+            }
             if (salePrice >= productPrice) {
                 throw new Error('Regular price should be less!')
             }
