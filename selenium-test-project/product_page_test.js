@@ -17,7 +17,7 @@ test.describe('Product page tests', function () {
     this.timeout(10000);
 
     test.before(function *() {
-        driver = yield new Builder().forBrowser('chrome').build();
+        driver = yield new Builder().forBrowser('internet explorer').build();
     });
 
     try {
@@ -69,8 +69,8 @@ test.describe('Product page tests', function () {
             if (colorsRegular[0] !== colorsRegular[1] || colorsRegular[1] !== colorsRegular[2]  || regularPriceShapeMain.slice(0, 12) !== 'line-through') {
                 throw new Error('Regular price style is wrong!');
             }
-            //check g=b=0 as red; bold is a number in ie and ff (900 in this case)
-            if (colorsSale[1] !== 0 || colorsSale[2] !== 0 || (salePriceShapeMain !== 'bold' && salePriceShapeMain !== ('900'))) {
+            //check g=b=0 as red; bold is a number in ie and ff (>= 700)
+            if (colorsSale[1] !== 0 || colorsSale[2] !== 0 || (salePriceShapeMain !== 'bold' && salePriceShapeMain < ('700'))) {
                 throw new Error('Sale price style is wrong!');
             }
             //open product page
@@ -107,7 +107,7 @@ test.describe('Product page tests', function () {
                 throw new Error('Regular price style is wrong!')
             }
             //check g=b=0 as red
-            if (colorsSale[1] !== 0 || colorsSale[2] !== 0 || (salePriceShape !== 'bold' && salePriceShape !== ('900'))) {
+            if (colorsSale[1] !== 0 || colorsSale[2] !== 0 || (salePriceShape !== 'bold' && salePriceShape < ('700'))) {
                 throw new Error('Sale price style is wrong!')
             }
         });
