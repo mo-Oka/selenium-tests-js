@@ -74,6 +74,9 @@ test.describe('Add new product', function () {
             //check by assert notice  Changes saved
             let notice = yield driver.findElement(By.xpath("//*[contains(., 'Changes saved')]"));
             yield driver.wait(until.elementIsVisible(notice), 10000/*ms*/).then();
+            //assert Super Duck
+            yield driver.findElement(By.linkText('Super Duck')).then();
+
         })
     }
     catch (e) {
