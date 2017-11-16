@@ -5,7 +5,7 @@ const test = require('selenium-webdriver/testing');
 
 test.describe('Cart tests', function () {
     let driver;
-    this.timeout(15000);
+    this.timeout(20000);
 
     test.before(function *() {
         driver = yield new Builder().forBrowser('chrome').build();
