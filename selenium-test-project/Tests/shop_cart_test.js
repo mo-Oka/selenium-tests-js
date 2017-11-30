@@ -10,7 +10,6 @@ test.describe('User registration', function () {
         app = new target.Application();
     });
 
-    try {
         test.it('Add 3 products to cart and delete all', function* () {
 
             for (let i = 0; i < 3; i++) {
@@ -26,10 +25,6 @@ test.describe('User registration', function () {
 
             yield app.cartPage.verifyCartIsEmpty();
         });
-    }
-    catch (e) {
-            console.log(e)
-        }
 
     test.after(() => app.quit());
 
