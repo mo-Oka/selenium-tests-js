@@ -9,7 +9,7 @@ test.describe('Load music list from VK', function () {
         driver = yield new Builder().forBrowser('chrome').build();
     });
 
-    test.it('Add new product on admin page', function* () {
+    test.it('log all VK music for user', function* () {
         yield driver.get('PutHereLinkToYourAudioVK!!!!<---!!!!');
         let email = yield driver.findElement(By.css('#email'));
         email.click();
